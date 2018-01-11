@@ -1,0 +1,273 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is Oracle JAX-WS 2.1.5. --><xs:schema xmlns:tns="http://services.mapd.benefits.vba.va.gov/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://services.mapd.benefits.vba.va.gov/">
+
+<xs:element name="BenefitsException" nillable="true" type="tns:benefitsExceptionBean"/>
+
+<xs:element name="getBenefitClaimStatusTypeCodeList" type="tns:getBenefitClaimStatusTypeCodeList"/>
+
+<xs:element name="getBenefitClaimStatusTypeCodeListResponse" type="tns:getBenefitClaimStatusTypeCodeListResponse"/>
+
+<xs:element name="getBnftClaimLcStatusTypeCodeList" type="tns:getBnftClaimLcStatusTypeCodeList"/>
+
+<xs:element name="getBnftClaimLcStatusTypeCodeListResponse" type="tns:getBnftClaimLcStatusTypeCodeListResponse"/>
+
+<xs:element name="getClaimSuspenseReasonTypeCodeList" type="tns:getClaimSuspenseReasonTypeCodeList"/>
+
+<xs:element name="getClaimSuspenseReasonTypeCodeListResponse" type="tns:getClaimSuspenseReasonTypeCodeListResponse"/>
+
+<xs:element name="getContentionClassificationTypeCodeList" type="tns:getContentionClassificationTypeCodeList"/>
+
+<xs:element name="getContentionClassificationTypeCodeListResponse" type="tns:getContentionClassificationTypeCodeListResponse"/>
+
+<xs:element name="getContentionStatusTypeCodeList" type="tns:getContentionStatusTypeCodeList"/>
+
+<xs:element name="getContentionStatusTypeCodeListResponse" type="tns:getContentionStatusTypeCodeListResponse"/>
+
+<xs:element name="getContentionTypeList" type="tns:getContentionTypeList"/>
+
+<xs:element name="getContentionTypeListResponse" type="tns:getContentionTypeListResponse"/>
+
+<xs:element name="getDvlpmtItemLcStatusTypeCodeList" type="tns:getDvlpmtItemLcStatusTypeCodeList"/>
+
+<xs:element name="getDvlpmtItemLcStatusTypeCodeListResponse" type="tns:getDvlpmtItemLcStatusTypeCodeListResponse"/>
+
+<xs:element name="getSpecialIssueList" type="tns:getSpecialIssueList"/>
+
+<xs:element name="getSpecialIssueListResponse" type="tns:getSpecialIssueListResponse"/>
+
+<xs:element name="getStandardActions" type="tns:getStandardActions"/>
+
+<xs:element name="getStandardActionsResponse" type="tns:getStandardActionsResponse"/>
+
+<xs:element name="getStatusTypeCodeList" type="tns:getStatusTypeCodeList"/>
+
+<xs:element name="getStatusTypeCodeListResponse" type="tns:getStatusTypeCodeListResponse"/>
+
+<xs:complexType name="getDvlpmtItemLcStatusTypeCodeList">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="getDvlpmtItemLcStatusTypeCodeListResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:type" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="type">
+<xs:complexContent>
+<xs:extension base="tns:transferObject">
+<xs:sequence>
+<xs:element name="cd" type="xs:string" minOccurs="0"/>
+<xs:element name="dactvtDt" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="descpTxt" type="xs:string" minOccurs="0"/>
+<xs:element name="groupTn" type="xs:string" minOccurs="0"/>
+<xs:element name="nm" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+
+<xs:complexType name="transferObject" abstract="true">
+<xs:sequence>
+<xs:element name="callId" type="xs:long" minOccurs="0"/>
+<xs:element name="jrnDt" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="jrnLctnId" type="xs:string" minOccurs="0"/>
+<xs:element name="jrnObjId" type="xs:string" minOccurs="0"/>
+<xs:element name="jrnSttTc" type="xs:string" minOccurs="0"/>
+<xs:element name="jrnUserId" type="xs:string" minOccurs="0"/>
+<xs:element name="parentId" type="xs:long" minOccurs="0"/>
+<xs:element name="parentName" type="xs:string" minOccurs="0"/>
+<xs:element name="rowCnt" type="xs:long" minOccurs="0"/>
+<xs:element name="rowId" type="xs:long" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="benefitsExceptionBean">
+<xs:complexContent>
+<xs:extension base="tns:faultInfoBean">
+<xs:sequence>
+<xs:element name="CALL_ID" type="xs:int" minOccurs="0"/>
+<xs:element name="DATASOURCE" type="xs:string" minOccurs="0"/>
+<xs:element name="DS_ERROR" type="xs:string" minOccurs="0"/>
+<xs:element name="DS_MESSAGE" type="xs:string" minOccurs="0"/>
+<xs:element name="FIELD_NAME" type="xs:string" minOccurs="0"/>
+<xs:element name="JRN_DT" type="xs:string" minOccurs="0"/>
+<xs:element name="JRN_LCTN_ID" type="xs:string" minOccurs="0"/>
+<xs:element name="JRN_OBJ_ID" type="xs:string" minOccurs="0"/>
+<xs:element name="JRN_STT_TC" type="xs:string" minOccurs="0"/>
+<xs:element name="JRN_USER_ID" type="xs:string" minOccurs="0"/>
+<xs:element name="LOG" type="xs:string" minOccurs="0"/>
+<xs:element name="ORA_MSG" type="xs:string" minOccurs="0"/>
+<xs:element name="PARENT_ID" type="xs:int" minOccurs="0"/>
+<xs:element name="PARENT_NAME" type="xs:string" minOccurs="0"/>
+<xs:element name="ROW_CNT" type="xs:int" minOccurs="0"/>
+<xs:element name="ROW_ID" type="xs:int" minOccurs="0"/>
+<xs:element name="ROW_NUM" type="xs:int" minOccurs="0"/>
+<xs:element name="TABLE_NAME" type="xs:string" minOccurs="0"/>
+<xs:element name="VN_ERROR" type="xs:int" minOccurs="0"/>
+<xs:element name="VN_MSG" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+
+<xs:complexType name="faultInfoBean">
+<xs:sequence>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getBnftClaimLcStatusTypeCodeList">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="getBnftClaimLcStatusTypeCodeListResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:type" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getStatusTypeCodeList">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="getStatusTypeCodeListResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:type" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getSpecialIssueList">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="getSpecialIssueListResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:type" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getStandardActions">
+<xs:sequence>
+<xs:element name="arg0" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getStandardActionsResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:standardAction" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="standardAction">
+<xs:complexContent>
+<xs:extension base="tns:transferObject">
+<xs:sequence>
+<xs:element name="devactnCategyTc" type="xs:string" minOccurs="0"/>
+<xs:element name="endDt" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="fedAgencyInd" type="xs:string" minOccurs="0"/>
+<xs:element name="lctnId" type="xs:string" minOccurs="0"/>
+<xs:element name="pgmTc" type="xs:string" minOccurs="0"/>
+<xs:element name="prgrphId" type="xs:string" minOccurs="0"/>
+<xs:element name="ptcpntId" type="xs:string" minOccurs="0"/>
+<xs:element name="stdChklstCd" type="xs:string" minOccurs="0"/>
+<xs:element name="stdDescription" type="xs:string" minOccurs="0"/>
+<xs:element name="stdDevactnCd" type="xs:string" minOccurs="0"/>
+<xs:element name="stdDevactnId" type="xs:string" minOccurs="0"/>
+<xs:element name="stdactnDescp" type="xs:string" minOccurs="0"/>
+<xs:element name="suspnsDuratn" type="xs:long" minOccurs="0"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+
+<xs:complexType name="getContentionClassificationTypeCodeList">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="getContentionClassificationTypeCodeListResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:contentionClassification" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="contentionClassification">
+<xs:complexContent>
+<xs:extension base="tns:transferObject">
+<xs:sequence>
+<xs:element name="clsfcnId" type="xs:string" minOccurs="0"/>
+<xs:element name="clsfcnTxt" type="xs:string" minOccurs="0"/>
+<xs:element name="endDt" type="xs:dateTime" minOccurs="0"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+
+<xs:complexType name="getClaimSuspenseReasonTypeCodeList">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="getClaimSuspenseReasonTypeCodeListResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:claimSuspenseReason" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="claimSuspenseReason">
+<xs:complexContent>
+<xs:extension base="tns:transferObject">
+<xs:sequence>
+<xs:element name="claimSuspnsCd" type="xs:string" minOccurs="0"/>
+<xs:element name="claimSuspnsNbr" type="xs:long" minOccurs="0"/>
+<xs:element name="claimSuspnsNm" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+
+<xs:complexType name="getBenefitClaimStatusTypeCodeList">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="getBenefitClaimStatusTypeCodeListResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:typeRelationship" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="typeRelationship">
+<xs:complexContent>
+<xs:extension base="tns:transferObject">
+<xs:sequence>
+<xs:element name="cd" type="xs:string" minOccurs="0"/>
+<xs:element name="groupTn" type="xs:string" minOccurs="0"/>
+<xs:element name="nm" type="xs:string" minOccurs="0"/>
+<xs:element name="pgmTc" type="xs:string" minOccurs="0"/>
+<xs:element name="rshpCd" type="xs:string" minOccurs="0"/>
+<xs:element name="rshpGroupTn" type="xs:string" minOccurs="0"/>
+<xs:element name="rshpNm" type="xs:string" minOccurs="0"/>
+<xs:element name="sortOrderNo" type="xs:long" minOccurs="0"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+
+<xs:complexType name="getContentionStatusTypeCodeList">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="getContentionStatusTypeCodeListResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:type" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getContentionTypeList">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="getContentionTypeListResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:type" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
