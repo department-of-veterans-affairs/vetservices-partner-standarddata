@@ -183,7 +183,7 @@ public class StandardDataWsClientConfig extends BaseWsClientConfig {
 	@Bean
 	WsClientSimulatorMarshallingInterceptor standardDataWsClientSimulatorMarshallingInterceptor() {
 		// CHECKSTYLE:ON
-		final Map<String, Jaxb2Marshaller> marshallerForPackageMap = new HashMap<String, Jaxb2Marshaller>();
+		final Map<String, Jaxb2Marshaller> marshallerForPackageMap = new HashMap<>();
 		marshallerForPackageMap.put(SSD_TRANSFER_PACKAGE, standardDataMarshaller());
 		return new WsClientSimulatorMarshallingInterceptor(marshallerForPackageMap);
 	}
