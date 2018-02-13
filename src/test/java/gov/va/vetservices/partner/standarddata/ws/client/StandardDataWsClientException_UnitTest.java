@@ -3,10 +3,8 @@ package gov.va.vetservices.partner.standarddata.ws.client;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
-
-import gov.va.ascent.framework.exception.AscentRuntimeException;
 
 /**
  * Test class for the StandardDataWsClientException
