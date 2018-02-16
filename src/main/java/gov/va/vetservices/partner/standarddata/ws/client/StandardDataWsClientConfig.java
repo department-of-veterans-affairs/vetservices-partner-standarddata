@@ -60,7 +60,7 @@ public class StandardDataWsClientConfig extends BaseWsClientConfig {
 	/**
 	 * decides if jaxb validation logs errors.
 	 */
-	//causes failure because apparently true is not a boolean value: 	@Value("${wss-common-services.ws.log.jaxb.validation:false}")
+	// causes failure because apparently true is not a boolean value: @Value("${wss-common-services.ws.log.jaxb.validation:false}")
 	private boolean logValidation;
 
 	/**
@@ -71,7 +71,6 @@ public class StandardDataWsClientConfig extends BaseWsClientConfig {
 	// Ignoring DesignForExtension check, we cannot make this spring bean method private or final
 	// CHECKSTYLE:OFF
 	@Bean
-	@Qualifier("standardDataWsClient")
 	Jaxb2Marshaller standardDataMarshaller() {
 		// CHECKSTYLE:ON
 		final Resource[] schemas = new Resource[] { new ClassPathResource("xsd/StandardDataService.xsd") };
@@ -101,8 +100,8 @@ public class StandardDataWsClientConfig extends BaseWsClientConfig {
 			@Value("${wss-partner-standarddata.ws.client.endpoint}") final String endpoint,
 			@Value("${wss-partner-standarddata.ws.client.readTimeout:60000}") final int readTimeout,
 			@Value("${wss-partner-standarddata.ws.client.connectionTimeout:60000}") final int connectionTimeout)
-					throws KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException,
-					CertificateException, IOException {
+			throws KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException,
+			CertificateException, IOException {
 
 		return createDefaultWebServiceTemplate(endpoint, readTimeout, connectionTimeout, standardDataMarshaller(),
 				standardDataMarshaller(), new ClientInterceptor[] { standardDataSecurityInterceptor() });
@@ -152,8 +151,8 @@ public class StandardDataWsClientConfig extends BaseWsClientConfig {
 	@Bean
 	InterceptingExceptionTranslator standardDataWsClientExceptionInterceptor() throws ClassNotFoundException {
 		// CHECKSTYLE:ON
-		return getInterceptingExceptionTranslator(
-				"gov.va.vetservices.partner.standarddata.ws.client.StandardDataWsClientException", PACKAGE_WSS_FOUNDATION_EXCEPTION);
+		return getInterceptingExceptionTranslator("gov.va.vetservices.partner.standarddata.ws.client.StandardDataWsClientException",
+				PACKAGE_WSS_FOUNDATION_EXCEPTION);
 	}
 
 	/**
@@ -166,9 +165,9 @@ public class StandardDataWsClientConfig extends BaseWsClientConfig {
 	@Bean
 	BeanNameAutoProxyCreator standardDataWsClientBeanProxy() {
 		// CHECKSTYLE:ON
-		return getBeanNameAutoProxyCreator(new String[] { StandardDataWsClientImpl.BEAN_NAME,
-				StandardDataWsClientSimulator.BEAN_NAME }, new String[] { "standardDataWsClientExceptionInterceptor",
-		"standardDataWsClientPerformanceLogMethodInterceptor" });
+		return getBeanNameAutoProxyCreator(
+				new String[] { StandardDataWsClientImpl.BEAN_NAME, StandardDataWsClientSimulator.BEAN_NAME },
+				new String[] { "standardDataWsClientExceptionInterceptor", "standardDataWsClientPerformanceLogMethodInterceptor" });
 	}
 
 	/**
