@@ -6,8 +6,10 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.annotation.PostConstruct;
 
 import org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -25,43 +27,70 @@ import org.springframework.ws.soap.security.wss4j.Wss4jSecurityInterceptor;
 
 import gov.va.ascent.framework.exception.InterceptingExceptionTranslator;
 import gov.va.ascent.framework.log.PerformanceLogMethodInterceptor;
+import gov.va.ascent.framework.util.Defense;
 import gov.va.ascent.framework.ws.client.BaseWsClientConfig;
-import gov.va.ascent.framework.ws.client.WsClientSimulatorMarshallingInterceptor;
+import gov.va.vetservices.partner.standarddata.ws.client.StandardDataWsClientImpl;
 
 /**
- * This class represents the Spring configuration for the Chapter31 Case Web Service Client.
+ * Spring configuration for the StandardData Web Service Client.
  *
+ * @author Vanapalliv
  */
 @Configuration
-@ComponentScan(basePackages = { "gov.va.vetservices.partner.standarddata.ws.client" }, excludeFilters = @Filter(Configuration.class))
-@SuppressWarnings("PMD.ExcessiveImports")
+@ComponentScan(basePackages = { "gov.va.vetservices.partner.standarddata.ws.client" },
+excludeFilters = @Filter(Configuration.class))
 public class StandardDataWsClientConfig extends BaseWsClientConfig {
-
+	
 	/** The Constant TRANSFER_PACKAGE. */
 	private static final String SSD_TRANSFER_PACKAGE = "gov.va.vetservices.partner.standarddata.ws.client.transfer";
 
-	// ####### values are from /resource/config/*.properties ######
-	/** The username. */
-	@Value("${wss-partner-standarddata.ws.client.username}")
-	private String ssdUsername;
+	/** Exception class for exception interceptor */
+	private static final String DEFAULT_EXCEPTION_CLASS = "gov.va.vetservices.partner.standarddata.ws.client.StandardDataWsClientException";
 
-	/** The password. */
-	@Value("${wss-partner-standarddata.ws.client.password}")
-	private String ssdPassword;
+	/** exclude package for exception interceptor */
+	private static final String EXCLUDE_EXCEPTION_PKG = "gov.va.vetservices.partner.standarddata.ws.client";
 
-	/** The va application name. */
-	@Value("${wss-partner-standarddata.ws.client.vaApplicationName}")
+	// ####### for test, member values are from src/test/resource/application.yml ######
+	/**
+	 * Boolean flag to indicate if we should log the JAXB error as an error nor
+	 * debug. In the test environment we get so many errors we don't want to polute
+	 * logs, however in prod data is expected to be cleaner, logs less polluted and
+	 * we may want these logged.
+	 */
+	@Value("${vetservices-partner-standarddata.ws.client.logSchemaValidationFailureAsError:true}")
+	public boolean logSchemaValidationFailureAsError;
+
+	/** Username for standarddata WS Authentication. */
+	@Value("${vetservices-partner-standarddata.ws.client.username}")
+	private String username;
+
+	/** pw for standarddata WS Authentication. */
+	@Value("${vetservices-partner-standarddata.ws.client.password}")
+	private String password;
+
+	/** VA Application Name Header value. */
+	@Value("${vetservices-partner-standarddata.ws.client.vaApplicationName}")
 	private String vaApplicationName;
 
 	/** VA STN_ID value */
-	@Value("${wss-partner-standarddata.ws.client.stationID}")
+	@Value("${vetservices-partner-standarddata.ws.client.stationID}")
 	private String stationId;
-
+	
 	/**
 	 * decides if jaxb validation logs errors.
 	 */
 	//causes failure because apparently true is not a boolean value: 	@Value("${wss-common-services.ws.log.jaxb.validation:false}")
 	private boolean logValidation;
+	
+	/**
+	 * Executed after dependency injection is done to validate initialization.
+	 */
+	@PostConstruct
+	public final void postConstruct() {
+		Defense.hasText(username, "Partner username cannot be empty.");
+		Defense.hasText(password, "Partner password cannot be empty.");
+		Defense.hasText(vaApplicationName, "Partner vaApplicationName cannot be empty.");
+	}
 
 	/**
 	 * WS Client object marshaller
@@ -77,6 +106,7 @@ public class StandardDataWsClientConfig extends BaseWsClientConfig {
 		final Resource[] schemas = new Resource[] { new ClassPathResource("xsd/StandardDataService.xsd") };
 		return getMarshaller(SSD_TRANSFER_PACKAGE, schemas, logValidation);
 	}
+
 
 	/**
 	 * Axiom based WebServiceTemplate for the Chapter 31 Case Web Service Client.
@@ -105,23 +135,12 @@ public class StandardDataWsClientConfig extends BaseWsClientConfig {
 					CertificateException, IOException {
 
 		return createDefaultWebServiceTemplate(endpoint, readTimeout, connectionTimeout, standardDataMarshaller(),
-				standardDataMarshaller(), new ClientInterceptor[] { standardDataSecurityInterceptor() });
+				standardDataMarshaller(), new ClientInterceptor[] {
+						getVAServiceWss4jSecurityInterceptor(username, password, vaApplicationName, null) });
 	}
 
-	/**
-	 * Security interceptor to apply security to Chapter31 Case WS calls.
-	 *
-	 * @return security interceptor
-	 */
-	// jluck - ignoring DesignForExtension check, we cannot make this spring
-	// bean method private or final
-	// CHECKSTYLE:OFF
-	@Bean
-	Wss4jSecurityInterceptor standardDataSecurityInterceptor() {
-		// CHECKSTYLE:ON
-		return getVAServiceWss4jSecurityInterceptor(ssdUsername, ssdPassword, vaApplicationName, stationId);
-	}
-
+		
+	
 	/**
 	 * PerformanceLogMethodInterceptor for the Chapter31 Case Web Service Client
 	 *
@@ -152,55 +171,15 @@ public class StandardDataWsClientConfig extends BaseWsClientConfig {
 	@Bean
 	InterceptingExceptionTranslator standardDataWsClientExceptionInterceptor() throws ClassNotFoundException {
 		// CHECKSTYLE:ON
-		return getInterceptingExceptionTranslator(
-				"gov.va.vetservices.partner.standarddata.ws.client.StandardDataWsClientException", PACKAGE_WSS_FOUNDATION_EXCEPTION);
+		final InterceptingExceptionTranslator interceptingExceptionTranslator = getInterceptingExceptionTranslator(
+				DEFAULT_EXCEPTION_CLASS, PACKAGE_WSS_FOUNDATION_EXCEPTION);
+		final Set<String> exclusionSet = new HashSet<>();
+		exclusionSet.add(PACKAGE_WSS_FOUNDATION_EXCEPTION);
+		exclusionSet.add(EXCLUDE_EXCEPTION_PKG);
+		interceptingExceptionTranslator.setExclusionSet(exclusionSet);
+		return interceptingExceptionTranslator;
 	}
 
-	/**
-	 * A standard bean proxy to apply interceptors to the Address web service client.
-	 *
-	 * @return the bean name auto proxy creator
-	 */
-	// Ignoring DesignForExtension check, we cannot make this spring bean method private or final
-	// CHECKSTYLE:OFF
-	@Bean
-	BeanNameAutoProxyCreator standardDataWsClientBeanProxy() {
-		// CHECKSTYLE:ON
-		return getBeanNameAutoProxyCreator(new String[] { StandardDataWsClientImpl.BEAN_NAME,
-				StandardDataWsClientSimulator.BEAN_NAME }, new String[] { "standardDataWsClientExceptionInterceptor",
-		"standardDataWsClientPerformanceLogMethodInterceptor" });
-	}
 
-	/**
-	 * Ws client simulator marshalling interceptor, so that requests and responses to the simulator are passed through the marshaller
-	 * to ensure we don't have any Java-to-XML conversion surprises if we leverage simulators heavily in development and then start
-	 * using real web services later on.
-	 *
-	 * @return the ws client simulator marshalling interceptor
-	 */
-	// Ignoring DesignForExtension check, we cannot make this spring bean method private or final
-	// CHECKSTYLE:OFF
-	@Bean
-	WsClientSimulatorMarshallingInterceptor standardDataWsClientSimulatorMarshallingInterceptor() {
-		// CHECKSTYLE:ON
-		final Map<String, Jaxb2Marshaller> marshallerForPackageMap = new HashMap<>();
-		marshallerForPackageMap.put(SSD_TRANSFER_PACKAGE, standardDataMarshaller());
-		return new WsClientSimulatorMarshallingInterceptor(marshallerForPackageMap);
-	}
-
-	/**
-	 * A standard bean proxy to apply interceptors to the web service client simulations that we don't need/want to apply to real web
-	 * service client impls.
-	 *
-	 * @return the bean name auto proxy creator
-	 */
-	// Ignoring DesignForExtension check, we cannot make this spring bean method private or final
-	// CHECKSTYLE:OFF
-	@Bean
-	BeanNameAutoProxyCreator standardDataWsClientSimulatorProxy() {
-		// CHECKSTYLE:ON
-		return getBeanNameAutoProxyCreator(new String[] { StandardDataWsClientSimulator.BEAN_NAME },
-				new String[] { "standardDataWsClientSimulatorMarshallingInterceptor" });
-	}
 
 }

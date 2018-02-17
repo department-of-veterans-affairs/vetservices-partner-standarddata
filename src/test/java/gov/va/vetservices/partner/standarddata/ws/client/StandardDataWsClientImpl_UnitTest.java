@@ -12,8 +12,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import gov.va.ascent.framework.config.AscentCommonSpringProfiles;
-import gov.va.vetservices.partner.mock.framework.PartnerMockFrameworkTestConfig;
 import gov.va.vetservices.partner.standarddata.ws.client.transfer.ObjectFactory;
+import gov.va.vetservices.partner.standarddata.ws.client.StandardDataWsClient;
+import gov.va.vetservices.partner.standarddata.ws.client.StandardDataWsClientConfig;
 
 /**
  * Unit test of AddressValidateWsClientImpl.
@@ -22,8 +23,7 @@ import gov.va.vetservices.partner.standarddata.ws.client.transfer.ObjectFactory;
 @Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ActiveProfiles({ AscentCommonSpringProfiles.PROFILE_ENV_LOCAL_INT, AscentCommonSpringProfiles.PROFILE_REMOTE_CLIENT_IMPLS })
-@ContextConfiguration(inheritLocations = false, classes = { StandardDataWsClientConfig.class,
-		PartnerMockFrameworkTestConfig.class })
+@ContextConfiguration(inheritLocations = false, classes = { StandardDataWsClientConfig.class })
 public class StandardDataWsClientImpl_UnitTest {
 
 	/**
