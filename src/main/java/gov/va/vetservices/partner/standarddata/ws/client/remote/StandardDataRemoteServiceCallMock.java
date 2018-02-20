@@ -1,6 +1,5 @@
 package gov.va.vetservices.partner.standarddata.ws.client.remote;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.ws.client.core.WebServiceTemplate;
@@ -23,14 +22,14 @@ import gov.va.vetservices.partner.standarddata.ws.client.transfer.GetContentionC
 @Component(StandardDataRemoteServiceCallMock.BEAN_NAME_LOCAL)
 public class StandardDataRemoteServiceCallMock extends AbstractRemoteServiceCallMock implements RemoteServiceCall {
 
-	/** The spring bean name for any implementations. */
+	/** The spring bean name for simulation mocks. MUST BE UNIQUE ACROSS ALL PARTNER JARS */
 	static final String BEAN_NAME_LOCAL = "standardDataRemoteServiceCallMock";
-	
+
 	private static final String ALL_DISABILITIES = "allDisabilities";
 
 	@Override
-	public AbstractTransferObject callRemoteService(final WebServiceTemplate webserviceTemplate,
-			final AbstractTransferObject request, final Class<? extends AbstractTransferObject> requestClass) {
+	public AbstractTransferObject callRemoteService(final WebServiceTemplate webserviceTemplate, final AbstractTransferObject request,
+			final Class<? extends AbstractTransferObject> requestClass) {
 
 		return super.callMockService(webserviceTemplate, request, requestClass);
 	}
@@ -41,12 +40,12 @@ public class StandardDataRemoteServiceCallMock extends AbstractRemoteServiceCall
 
 		String mockFilename = null;
 
-		if(request.getClass().isAssignableFrom(GetContentionClassificationTypeCodeList.class)
-				&& ((GetContentionClassificationTypeCodeList) request) != null){
+		if (request.getClass().isAssignableFrom(GetContentionClassificationTypeCodeList.class)
+				&& (((GetContentionClassificationTypeCodeList) request) != null)) {
 			// specify a mock filename that is the state code
 			mockFilename = ALL_DISABILITIES;
 		}
-	
+
 		return mockFilename;
 	}
 
