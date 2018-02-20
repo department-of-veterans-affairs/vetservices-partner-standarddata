@@ -13,8 +13,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import gov.va.ascent.framework.config.AscentCommonSpringProfiles;
 import gov.va.vetservices.partner.standarddata.ws.client.transfer.ObjectFactory;
-import gov.va.vetservices.partner.standarddata.ws.client.StandardDataWsClient;
-import gov.va.vetservices.partner.standarddata.ws.client.StandardDataWsClientConfig;
 
 /**
  * Unit test of AddressValidateWsClientImpl.
@@ -51,47 +49,50 @@ public class StandardDataWsClientImpl_UnitTest {
 	@Test
 	public void testGetContentionClassificationTypeCodeList() {
 
-		/** ISSUE
+		/**
+		 * ISSUE
 		 * Commented because approach to mocking has changed
-		new MockUp<WebServiceTemplate>() {
-			@Mock
-			public Object marshalSendAndReceive(final Object requestPayload) {
-				final GetContentionClassificationTypeCodeListResponse response = new GetContentionClassificationTypeCodeListResponse();
-				final ContentionClassification contention = new ContentionClassification();
-				contention.setClsfcnTxt("abnormal mitral valve");
-				try {
-					final Date dt = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse("2016-02-04 11:51:56");
-					final GregorianCalendar cal = new GregorianCalendar();
-					cal.setTime(dt);
-					final XMLGregorianCalendar xmlDate = DatatypeFactory.newInstance().newXMLGregorianCalendar(cal);
-
-					contention.setEndDt(xmlDate);
-				} catch(final ParseException pe) {
-					Assert.fail(pe.getMessage());
-				}catch (final DatatypeConfigurationException dce) {
-					Assert.fail(dce.getMessage());
-				}
-
-				response.getReturn().add(contention);
-				return STANDARDDATA_OBJECT_FACTORY.createGetContentionClassificationTypeCodeListResponse(response);
-			}
-		};
-
-
-		final GetContentionClassificationTypeCodeList request = new GetContentionClassificationTypeCodeList();
-
-		final GetContentionClassificationTypeCodeListResponse response =
-				standardDataWsClient.getContentionClassificationTypeCodeList(request);
-
-		// Check the response for valid data.
-		Assert.assertNotNull("Invalid Web Service response element. Response must not be null.", response);
-		final ContentionClassification contention = response.getReturn().get(0);
-
-		Assert.assertTrue("Contention should not be null", contention != null);
-
-		// If no DTO was returned, the participant Id did not match a case.
-		Assert.assertNotNull("No data returned from Contention" , contention.getClsfcnTxt());
-		Mockit.tearDownMocks(WebServiceTemplate.class);
+		 * new MockUp<WebServiceTemplate>() {
+		 *
+		 * @Mock
+		 * 		public Object marshalSendAndReceive(final Object requestPayload) {
+		 *       final GetContentionClassificationTypeCodeListResponse response = new
+		 *       GetContentionClassificationTypeCodeListResponse();
+		 *       final ContentionClassification contention = new ContentionClassification();
+		 *       contention.setClsfcnTxt("abnormal mitral valve");
+		 *       try {
+		 *       final Date dt = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse("2016-02-04 11:51:56");
+		 *       final GregorianCalendar cal = new GregorianCalendar();
+		 *       cal.setTime(dt);
+		 *       final XMLGregorianCalendar xmlDate = DatatypeFactory.newInstance().newXMLGregorianCalendar(cal);
+		 *
+		 *       contention.setEndDt(xmlDate);
+		 *       } catch(final ParseException pe) {
+		 *       Assert.fail(pe.getMessage());
+		 *       }catch (final DatatypeConfigurationException dce) {
+		 *       Assert.fail(dce.getMessage());
+		 *       }
+		 *
+		 *       response.getReturn().add(contention);
+		 *       return STANDARDDATA_OBJECT_FACTORY.createGetContentionClassificationTypeCodeListResponse(response);
+		 *       }
+		 *       };
+		 *
+		 *
+		 *       final GetContentionClassificationTypeCodeList request = new GetContentionClassificationTypeCodeList();
+		 *
+		 *       final GetContentionClassificationTypeCodeListResponse response =
+		 *       standardDataWsClient.getContentionClassificationTypeCodeList(request);
+		 *
+		 *       // Check the response for valid data.
+		 *       Assert.assertNotNull("Invalid Web Service response element. Response must not be null.", response);
+		 *       final ContentionClassification contention = response.getReturn().get(0);
+		 *
+		 *       Assert.assertTrue("Contention should not be null", contention != null);
+		 *
+		 *       // If no DTO was returned, the participant Id did not match a case.
+		 *       Assert.assertNotNull("No data returned from Contention" , contention.getClsfcnTxt());
+		 *       Mockit.tearDownMocks(WebServiceTemplate.class);
 		 */
 	}
 }

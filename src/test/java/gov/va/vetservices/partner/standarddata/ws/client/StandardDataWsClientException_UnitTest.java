@@ -6,7 +6,6 @@ import static org.junit.Assert.assertNull;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
-
 /**
  * Test class for the StandardDataWsClientException
  *
@@ -58,7 +57,7 @@ public class StandardDataWsClientException_UnitTest {
 	 */
 	private String parseMessageFromExceptionMessage(final String message) {
 		String tmp = StringUtils.substringAfter(message, ":");
-		if((tmp != null) && (tmp.trim().length() < 1)) {
+		if ((tmp != null) && (tmp.trim().length() < 1)) {
 			tmp = null;
 		}
 		return tmp;
