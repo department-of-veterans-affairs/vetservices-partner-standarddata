@@ -11,7 +11,6 @@ import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
-import org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -23,13 +22,11 @@ import org.springframework.core.io.Resource;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.ws.client.core.WebServiceTemplate;
 import org.springframework.ws.client.support.interceptor.ClientInterceptor;
-import org.springframework.ws.soap.security.wss4j.Wss4jSecurityInterceptor;
 
 import gov.va.ascent.framework.exception.InterceptingExceptionTranslator;
 import gov.va.ascent.framework.log.PerformanceLogMethodInterceptor;
 import gov.va.ascent.framework.util.Defense;
 import gov.va.ascent.framework.ws.client.BaseWsClientConfig;
-import gov.va.vetservices.partner.standarddata.ws.client.StandardDataWsClientImpl;
 
 /**
  * Spring configuration for the StandardData Web Service Client.
@@ -37,15 +34,15 @@ import gov.va.vetservices.partner.standarddata.ws.client.StandardDataWsClientImp
  * @author Vanapalliv
  */
 @Configuration
-@ComponentScan(basePackages = { "gov.va.vetservices.partner.standarddata.ws.client" },
-excludeFilters = @Filter(Configuration.class))
+@ComponentScan(basePackages = { "gov.va.vetservices.partner.standarddata.ws.client" }, excludeFilters = @Filter(Configuration.class))
 public class StandardDataWsClientConfig extends BaseWsClientConfig {
-	
+
 	/** The Constant TRANSFER_PACKAGE. */
 	private static final String SSD_TRANSFER_PACKAGE = "gov.va.vetservices.partner.standarddata.ws.client.transfer";
 
 	/** Exception class for exception interceptor */
-	private static final String DEFAULT_EXCEPTION_CLASS = "gov.va.vetservices.partner.standarddata.ws.client.StandardDataWsClientException";
+	private static final String DEFAULT_EXCEPTION_CLASS =
+			"gov.va.vetservices.partner.standarddata.ws.client.StandardDataWsClientException";
 
 	/** exclude package for exception interceptor */
 	private static final String EXCLUDE_EXCEPTION_PKG = "gov.va.vetservices.partner.standarddata.ws.client";
@@ -75,13 +72,13 @@ public class StandardDataWsClientConfig extends BaseWsClientConfig {
 	/** VA STN_ID value */
 	@Value("${vetservices-partner-standarddata.ws.client.stationID}")
 	private String stationId;
-	
+
 	/**
 	 * decides if jaxb validation logs errors.
 	 */
-	//causes failure because apparently true is not a boolean value: 	@Value("${wss-common-services.ws.log.jaxb.validation:false}")
+	// causes failure because apparently true is not a boolean value: @Value("${wss-common-services.ws.log.jaxb.validation:false}")
 	private boolean logValidation;
-	
+
 	/**
 	 * Executed after dependency injection is done to validate initialization.
 	 */
@@ -107,7 +104,6 @@ public class StandardDataWsClientConfig extends BaseWsClientConfig {
 		return getMarshaller(SSD_TRANSFER_PACKAGE, schemas, logValidation);
 	}
 
-
 	/**
 	 * Axiom based WebServiceTemplate for the Chapter 31 Case Web Service Client.
 	 *
@@ -128,19 +124,17 @@ public class StandardDataWsClientConfig extends BaseWsClientConfig {
 	@Qualifier("standardDataWsClient.axiom")
 	WebServiceTemplate standardDataWsClientAxiomTemplate(
 			// CHECKSTYLE:ON
-			@Value("${wss-partner-standarddata.ws.client.endpoint}") final String endpoint,
-			@Value("${wss-partner-standarddata.ws.client.readTimeout:60000}") final int readTimeout,
-			@Value("${wss-partner-standarddata.ws.client.connectionTimeout:60000}") final int connectionTimeout)
-					throws KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException,
-					CertificateException, IOException {
+			@Value("${vetservices-partner-standarddata.ws.client.endpoint}") final String endpoint,
+			@Value("${vetservices-partner-standarddata.ws.client.readTimeout:60000}") final int readTimeout,
+			@Value("${vetservices-partner-standarddata.ws.client.connectionTimeout:60000}") final int connectionTimeout)
+			throws KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException,
+			CertificateException, IOException {
 
 		return createDefaultWebServiceTemplate(endpoint, readTimeout, connectionTimeout, standardDataMarshaller(),
-				standardDataMarshaller(), new ClientInterceptor[] {
-						getVAServiceWss4jSecurityInterceptor(username, password, vaApplicationName, null) });
+				standardDataMarshaller(),
+				new ClientInterceptor[] { getVAServiceWss4jSecurityInterceptor(username, password, vaApplicationName, null) });
 	}
 
-		
-	
 	/**
 	 * PerformanceLogMethodInterceptor for the Chapter31 Case Web Service Client
 	 *
@@ -153,7 +147,7 @@ public class StandardDataWsClientConfig extends BaseWsClientConfig {
 	// CHECKSTYLE:OFF
 	@Bean
 	PerformanceLogMethodInterceptor standardDataWsClientPerformanceLogMethodInterceptor(
-			@Value("${wss-partner-standarddata.ws.client.methodWarningThreshhold:2500}") final Integer methodWarningThreshhold) {
+			@Value("${vetservices-partner-standarddata.ws.client.methodWarningThreshhold:2500}") final Integer methodWarningThreshhold) {
 		// CHECKSTYLE:ON
 		return getPerformanceLogMethodInterceptor(methodWarningThreshhold);
 	}
@@ -171,15 +165,13 @@ public class StandardDataWsClientConfig extends BaseWsClientConfig {
 	@Bean
 	InterceptingExceptionTranslator standardDataWsClientExceptionInterceptor() throws ClassNotFoundException {
 		// CHECKSTYLE:ON
-		final InterceptingExceptionTranslator interceptingExceptionTranslator = getInterceptingExceptionTranslator(
-				DEFAULT_EXCEPTION_CLASS, PACKAGE_WSS_FOUNDATION_EXCEPTION);
+		final InterceptingExceptionTranslator interceptingExceptionTranslator =
+				getInterceptingExceptionTranslator(DEFAULT_EXCEPTION_CLASS, PACKAGE_WSS_FOUNDATION_EXCEPTION);
 		final Set<String> exclusionSet = new HashSet<>();
 		exclusionSet.add(PACKAGE_WSS_FOUNDATION_EXCEPTION);
 		exclusionSet.add(EXCLUDE_EXCEPTION_PKG);
 		interceptingExceptionTranslator.setExclusionSet(exclusionSet);
 		return interceptingExceptionTranslator;
 	}
-
-
 
 }

@@ -12,11 +12,11 @@ import gov.va.ascent.framework.ws.client.remote.RemoteServiceCall;
  * Implements the {@link RemoteServiceCall} interface for the remote client impls spring profile
  */
 @Profile(AscentCommonSpringProfiles.PROFILE_REMOTE_CLIENT_IMPLS)
-@Component(StandardDataRemoteServiceCallImpl.BEAN_NAME_LOCAL)
+@Component(StandardDataRemoteServiceCallImpl.BEAN_NAME)
 public class StandardDataRemoteServiceCallImpl implements RemoteServiceCall {
 
 	/** The spring bean name for implementations. MUST BE UNIQUE ACROSS ALL PARTNER JARS */
-	static final String BEAN_NAME_LOCAL = "standardDataRemoteServiceCall";
+	public static final String BEAN_NAME = "standardDataRemoteServiceCall";
 
 	@Override
 	public AbstractTransferObject callRemoteService(final WebServiceTemplate webserviceTemplate, final AbstractTransferObject request,

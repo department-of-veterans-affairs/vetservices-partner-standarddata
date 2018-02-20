@@ -19,12 +19,10 @@ import gov.va.vetservices.partner.standarddata.ws.client.transfer.GetContentionC
  * @author Vanapalliv
  */
 @Profile(AscentCommonSpringProfiles.PROFILE_REMOTE_CLIENT_SIMULATORS)
-@Component(StandardDataRemoteServiceCallMock.BEAN_NAME_LOCAL)
-public class StandardDataRemoteServiceCallMock extends AbstractRemoteServiceCallMock implements RemoteServiceCall {
+@Component(StandardDataRemoteServiceCallImpl.BEAN_NAME)
+public class StandardDataRemoteServiceCallMock extends AbstractRemoteServiceCallMock { // implements RemoteServiceCall {
 
-	/** The spring bean name for simulation mocks. MUST BE UNIQUE ACROSS ALL PARTNER JARS */
-	static final String BEAN_NAME_LOCAL = "standardDataRemoteServiceCallMock";
-
+	/** default mock data if stateCode is null or empty */
 	private static final String ALL_DISABILITIES = "allDisabilities";
 
 	@Override

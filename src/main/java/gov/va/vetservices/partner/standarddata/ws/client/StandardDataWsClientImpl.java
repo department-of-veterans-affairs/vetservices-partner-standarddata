@@ -8,17 +8,17 @@ import org.springframework.stereotype.Component;
 import org.springframework.ws.client.core.WebServiceTemplate;
 
 import gov.va.ascent.framework.util.Defense;
-import gov.va.ascent.framework.ws.client.remote.RemoteServiceCall;
 import gov.va.ascent.framework.ws.client.BaseWsClientImpl;
+import gov.va.ascent.framework.ws.client.remote.RemoteServiceCall;
+import gov.va.vetservices.partner.standarddata.ws.client.remote.StandardDataRemoteServiceCallImpl;
 import gov.va.vetservices.partner.standarddata.ws.client.transfer.GetContentionClassificationTypeCodeList;
 import gov.va.vetservices.partner.standarddata.ws.client.transfer.GetContentionClassificationTypeCodeListResponse;
-
 
 /**
  * Spring Web Service based implementation of the TreatmentFacility
  * interface
  *
- * @author Vanapalliv	
+ * @author Vanapalliv
  *
  */
 @Component(StandardDataWsClientImpl.BEAN_NAME)
@@ -28,6 +28,7 @@ public class StandardDataWsClientImpl extends BaseWsClientImpl implements Standa
 	public static final String BEAN_NAME = "standardDataWsClient";
 
 	@Autowired
+	@Qualifier(StandardDataRemoteServiceCallImpl.BEAN_NAME)
 	private RemoteServiceCall remoteServiceCall;
 
 	/** axiom web service template for treatmentFacility service */
@@ -46,8 +47,11 @@ public class StandardDataWsClientImpl extends BaseWsClientImpl implements Standa
 	}
 
 	/**
-	 * <p>Get a list of treatment facilities from the partner.</p>
-	 * <p>The RemoteServiceCall implementation is selected by the current spring profile. REMOTE_CLIENT_IMPLS
+	 * <p>
+	 * Get a list of treatment facilities from the partner.
+	 * </p>
+	 * <p>
+	 * The RemoteServiceCall implementation is selected by the current spring profile. REMOTE_CLIENT_IMPLS
 	 * <ul>
 	 * <li>PROFILE_REMOTE_CLIENT_IMPLS instantiates RemoteServiceCallImpl</li>
 	 * <li>PROFILE_REMOTE_CLIENT_SIMULATORS instantiates RemoteServiceCallMock</li>
@@ -55,12 +59,13 @@ public class StandardDataWsClientImpl extends BaseWsClientImpl implements Standa
 	 * </p>
 	 */
 	@Override
-	public final GetContentionClassificationTypeCodeListResponse getContentionClassificationTypeCodeList(
-			final GetContentionClassificationTypeCodeList request) {
+	public final GetContentionClassificationTypeCodeListResponse
+			getContentionClassificationTypeCodeList(final GetContentionClassificationTypeCodeList request) {
 		Defense.notNull(request);
 
-		final GetContentionClassificationTypeCodeListResponse response = (GetContentionClassificationTypeCodeListResponse)
-				remoteServiceCall.callRemoteService(standardDataWsTemplate, request, request.getClass());
+		final GetContentionClassificationTypeCodeListResponse response =
+				(GetContentionClassificationTypeCodeListResponse) remoteServiceCall.callRemoteService(standardDataWsTemplate, request,
+						request.getClass());
 
 		Defense.notNull(response, RESPONSE_FROM_WEBSERVICE_CALL_NULL);
 
