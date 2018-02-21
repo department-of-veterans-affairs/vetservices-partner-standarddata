@@ -11,6 +11,7 @@ import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
+import org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -172,6 +173,30 @@ public class StandardDataWsClientConfig extends BaseWsClientConfig {
 		exclusionSet.add(EXCLUDE_EXCEPTION_PKG);
 		interceptingExceptionTranslator.setExclusionSet(exclusionSet);
 		return interceptingExceptionTranslator;
+	}
+	
+	/**
+	 * A standard bean proxy to apply interceptors to the standardData web
+	 * service client.
+	 *
+	 * @return the bean name auto proxy creator
+	 */
+	// ignoring DesignForExtension check, we cannot make this spring
+	// bean method private or final
+	// CHECKSTYLE:OFF
+	@Bean
+	BeanNameAutoProxyCreator standardDataWsClientBeanProxy() {
+		// CHECKSTYLE:ON
+		final String[] beanNames = { StandardDataWsClientImpl.BEAN_NAME }; // ,
+
+		// load each interceptor needed for the above beans.
+		final String[] interceptorNames = { "standardDataWsClientExceptionInterceptor",
+		"standardDataWsClientPerformanceLogMethodInterceptor" };
+
+		final BeanNameAutoProxyCreator creator = new BeanNameAutoProxyCreator();
+		creator.setBeanNames(beanNames);
+		creator.setInterceptorNames(interceptorNames);
+		return creator;
 	}
 
 }
