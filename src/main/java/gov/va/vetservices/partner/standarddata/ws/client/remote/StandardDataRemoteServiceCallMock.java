@@ -44,6 +44,9 @@ public class StandardDataRemoteServiceCallMock extends AbstractRemoteServiceCall
 			mockFilename = ALL_DISABILITIES;
 		}
 
+		if(mockFilename == null || mockFilename.trim().equals(""))
+			mockFilename = ALL_DISABILITIES;
+			
 		return mockFilename;
 	}
 
