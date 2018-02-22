@@ -1,65 +1,40 @@
 package gov.va.vetservices.partner.standarddata.ws.client;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertNotNull;
 
-import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
-/**
- * Test class for the StandardDataWsClientException
- *
- */
 public class StandardDataWsClientException_UnitTest {
 
-	private static final String EXCEPTION_MESSAGE = "This is an exception message";
-	private static final Throwable THROWABLE = new StandardDataWsClientException();
+	private StandardDataWsClientException testException;
+
+	private static final String TEST_MESSAGE = "This is a test error message";
+	private static NullPointerException TEST_CAUSE = new NullPointerException();
 
 	@Test
-	public void testDefaultConstructor() {
-
-		final StandardDataWsClientException ex = new StandardDataWsClientException();
-		final String message = parseMessageFromExceptionMessage(ex.getMessage());
-		assertNull(message);
-		assertNull(ex.getCause());
-	}
-
-	@Test
-	public void testMessageConstructor() {
-
-		final StandardDataWsClientException ex = new StandardDataWsClientException(EXCEPTION_MESSAGE);
-		assertEquals(EXCEPTION_MESSAGE, ex.getMessage());
-		assertNull(ex.getCause());
+	public void testTreatmentFacilityWsClientException() {
+		testException = new StandardDataWsClientException();
+		assertNotNull(testException);
 	}
 
 	@Test
-	public void testThrowableConstructor() {
-
-		final StandardDataWsClientException ex = new StandardDataWsClientException(THROWABLE);
-		final String message = parseMessageFromExceptionMessage(ex.getMessage());
-		assertNull(message);
-		assertEquals(THROWABLE, ex.getCause());
+	public void testTreatmentFacilityWsClientExceptionStringThrowable() {
+		testException = new StandardDataWsClientException(TEST_MESSAGE, TEST_CAUSE);
+		assertEquals(TEST_MESSAGE, testException.getMessage());
+		assertEquals(TEST_CAUSE, testException.getCause());
 	}
 
 	@Test
-	public void testMessageThrowableConstructor() {
-
-		final StandardDataWsClientException ex = new StandardDataWsClientException(EXCEPTION_MESSAGE, THROWABLE);
-		assertEquals(EXCEPTION_MESSAGE, ex.getMessage());
-		assertEquals(THROWABLE, ex.getCause());
+	public void testTreatmentFacilityWsClientExceptionString() {
+		testException = new StandardDataWsClientException(TEST_MESSAGE);
+		assertEquals(TEST_MESSAGE, testException.getMessage());
 	}
 
-	/**
-	 * Parse off the exception classname that gets added by some subclass, and return just the message
-	 *
-	 * @param message
-	 * @return
-	 */
-	private String parseMessageFromExceptionMessage(final String message) {
-		String tmp = StringUtils.substringAfter(message, ":");
-		if ((tmp != null) && (tmp.trim().length() < 1)) {
-			tmp = null;
-		}
-		return tmp;
+	@Test
+	public void testTreatmentFacilityWsClientExceptionThrowable() {
+		testException = new StandardDataWsClientException(TEST_CAUSE);
+		assertEquals(TEST_CAUSE, testException.getCause());
 	}
+
 }
