@@ -57,7 +57,7 @@ public class RemoteServiceCallImpl_UnitTest extends AbstractStandardDataTest {
 	private MockWebServiceServer mockWebServicesServer;
 
 	@Autowired
-	@Qualifier("treatmentFacilityWsClientAxiomTemplate")
+	@Qualifier("standardDataWsClientAxiomTemplate")
 	private WebServiceTemplate axiomWebServiceTemplate;
 
 	@Before

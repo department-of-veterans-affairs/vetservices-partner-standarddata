@@ -57,7 +57,7 @@ public class StandardDataWsClientImpl_UnitTest extends AbstractStandardDataTest{
 	}
 
 	@Test
-	public void testGetVAMedicalTreatmentFacilityList() {
+	public void testGetContentionClassificationTypeCodeList() {
 
 		// call the impl declared by the current @ActiveProfiles
 		GetContentionClassificationTypeCodeList request = makeRequest();
