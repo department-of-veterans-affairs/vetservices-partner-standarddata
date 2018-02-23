@@ -3,15 +3,15 @@ package gov.va.vetservices.partner.standarddata.ws.client;
 import gov.va.ascent.framework.exception.AscentRuntimeException;
 
 /**
- * This class represents the unique exception that can be thrown by the standarddataCaseWsClient.
+ * Root hierarchy of exceptions which indicates there was an exception/error in
+ * the TreatmentFacility web service
  *
+ * @author vgadda
  */
 public class StandardDataWsClientException extends AscentRuntimeException {
 
-	/**
-	 * generated version Id
-	 */
-	private static final long serialVersionUID = -8751235554954215227L;
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -7282496605582623526L;
 
 	/**
 	 * Instantiates a new exception.
