@@ -64,9 +64,9 @@ public class StandardDataWsClientImpl_UnitTest extends AbstractStandardDataTest{
 		GetContentionClassificationTypeCodeListResponse response = 
 				standardDataWsClientImpl.getContentionClassificationTypeCodeList(request);
 		assertNotNull(response);
-		assertNotNull(response.getReturn());
-		assertNotNull(response.getReturn().size());
-		assertTrue(response.getReturn().size() > 1);
+		assertNotNull(response.getReturns());
+		assertNotNull(response.getReturns().size());
+		assertTrue(response.getReturns().size() > 1);
 	}
 
 
