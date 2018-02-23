@@ -128,8 +128,7 @@ public class StandardDataWsClientConfig extends BaseWsClientConfig {
 			@Value("${vetservices-partner-standarddata.ws.client.endpoint}") final String endpoint,
 			@Value("${vetservices-partner-standarddata.ws.client.readTimeout:60000}") final int readTimeout,
 			@Value("${vetservices-partner-standarddata.ws.client.connectionTimeout:60000}") final int connectionTimeout)
-			throws KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException,
-			CertificateException, IOException {
+	{
 
 		return createDefaultWebServiceTemplate(endpoint, readTimeout, connectionTimeout, standardDataMarshaller(),
 				standardDataMarshaller(),
