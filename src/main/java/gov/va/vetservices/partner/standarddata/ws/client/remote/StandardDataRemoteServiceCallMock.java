@@ -9,7 +9,6 @@ import gov.va.ascent.framework.transfer.AbstractTransferObject;
 import gov.va.ascent.framework.util.Defense;
 import gov.va.ascent.framework.ws.client.remote.AbstractRemoteServiceCallMock;
 import gov.va.ascent.framework.ws.client.remote.RemoteServiceCall;
-import gov.va.vetservices.partner.standarddata.ws.client.transfer.GetContentionClassificationTypeCodeList;
 
 /**
  * Implements the {@link RemoteServiceCall} interface, and extends
@@ -20,10 +19,13 @@ import gov.va.vetservices.partner.standarddata.ws.client.transfer.GetContentionC
  */
 @Profile(AscentCommonSpringProfiles.PROFILE_REMOTE_CLIENT_SIMULATORS)
 @Component(StandardDataRemoteServiceCallImpl.BEAN_NAME)
-public class StandardDataRemoteServiceCallMock extends AbstractRemoteServiceCallMock { // implements RemoteServiceCall {
+public class StandardDataRemoteServiceCallMock extends AbstractRemoteServiceCallMock { 
 
 	/** default mock data if stateCode is null or empty */
 	private static final String ALL_DISABILITIES = "allDisabilities";
+	
+	/** error for null request */
+	static final String ERROR_NULL_REQUEST = "getKeyForMockResponse request parameter cannont be null.";
 
 	@Override
 	public AbstractTransferObject callRemoteService(final WebServiceTemplate webserviceTemplate, final AbstractTransferObject request,
@@ -35,19 +37,8 @@ public class StandardDataRemoteServiceCallMock extends AbstractRemoteServiceCall
 	@Override
 	protected String getKeyForMockResponse(final AbstractTransferObject request) {
 		Defense.notNull(request);
-
-		String mockFilename = null;
-
-		if (request.getClass().isAssignableFrom(GetContentionClassificationTypeCodeList.class)
-				&& (((GetContentionClassificationTypeCodeList) request) != null)) {
-			// specify a mock filename that is the state code
-			mockFilename = ALL_DISABILITIES;
-		}
-
-		if(mockFilename == null || mockFilename.trim().equals(""))
-			mockFilename = ALL_DISABILITIES;
 			
-		return mockFilename;
+		return ALL_DISABILITIES;
 	}
 
 }
