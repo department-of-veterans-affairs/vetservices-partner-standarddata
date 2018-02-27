@@ -1,0 +1,22 @@
+#we need to use a unique port per ws-partner micro jar, convention is use 95## convention
+#using 9501 as the starting point, and we need to increment by 1 for each newly added jar
+#so count the number of vetservices-partner projects, if your project is #30 then your port would be 9530
+vetservices-partner-mock-framework.db4oFile.port: 9533
+
+#local endpoint for test that runs against SoapUI
+#we need to use a unique port per ws-partner micro jar, convention is use 97## convention
+#using 9701 as the starting point, and we need to increment by 1 for each newly added jar
+#so count the number of vetservices-partner projects, if your project is #30 then your port would be 9730
+vetservices-partner-standarddata.ws.client.endpoint: http://localhost:9723/mockStandardDataServicePortBinding
+
+vetservices-partner-standarddata.ws.client.username: unitTestUsername
+vetservices-partner-standarddata.ws.client.password: unitTestPassword
+vetservices-partner-standarddata.ws.client.vaApplicationName: unitTestAppName
+vetservices-partner-standarddata.ws.client.stationID: unitTestStationId
+
+wss-persist.hibernateJpaConfig.packagesToScan: gov.va.evss.database.persist.domain
+
+vetservices-partner-standarddata.ws.client.logValidation: true
+vetservices-partner-standarddata.ws.client.readTimeout: 60000
+vetservices-partner-standarddata.ws.client.connectionTimeout: 60000
+vetservices-partner-standarddata.ws.client.methodWarningThreshhold: 2500
