@@ -5,7 +5,7 @@ import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 
-public class StandardDataWsClientException_UnitTest {
+public class StandardDataWsClientExceptionTest {
 
 	private StandardDataWsClientException testException;
 

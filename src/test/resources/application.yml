@@ -16,7 +16,7 @@ vetservices-partner-standarddata.ws.client.stationID: unitTestStationId
 
 wss-persist.hibernateJpaConfig.packagesToScan: gov.va.evss.database.persist.domain
 
-vetservices-partner-standarddata.ws.client.logSchemaValidationFailureAsError: true
+vetservices-partner-standarddata.ws.client.logValidation: true
 vetservices-partner-standarddata.ws.client.readTimeout: 60000
 vetservices-partner-standarddata.ws.client.connectionTimeout: 60000
 vetservices-partner-standarddata.ws.client.methodWarningThreshhold: 2500

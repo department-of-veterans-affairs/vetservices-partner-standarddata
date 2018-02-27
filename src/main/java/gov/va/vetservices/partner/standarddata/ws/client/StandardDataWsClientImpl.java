@@ -17,21 +17,19 @@ import gov.va.vetservices.partner.standarddata.ws.client.transfer.GetContentionC
 /**
  * Spring Web Service based implementation of the TreatmentFacility
  * interface
- *
- * @author Vanapalliv
- *
  */
 @Component(StandardDataWsClientImpl.BEAN_NAME)
 public class StandardDataWsClientImpl extends BaseWsClientImpl implements StandardDataWsClient {
 
-	/** The Constant BEAN_NAME. */
+	/** A constant representing the Spring Bean name. */
 	public static final String BEAN_NAME = "standardDataWsClient";
 
+	/** the switchable remote for service calls (impl or mock) */
 	@Autowired
 	@Qualifier(StandardDataRemoteServiceCallImpl.BEAN_NAME)
 	private RemoteServiceCall remoteServiceCall;
 
-	/** axiom web service template for treatmentFacility service */
+	/** axiom web service template. */
 	@Autowired
 	@Qualifier("standardDataWsClientAxiomTemplate")
 	private WebServiceTemplate standardDataWsTemplate;
@@ -43,7 +41,7 @@ public class StandardDataWsClientImpl extends BaseWsClientImpl implements Standa
 	public final void postConstruct() {
 		Defense.notNull(remoteServiceCall, "remoteServiceCall cannot be null.");
 		Defense.notNull(standardDataWsTemplate,
-				"standardDataWsTemplate cannot be null in order for StandardDataWsClientImpl to work properly.");
+				"standardDataWsTemplate cannot be null in order for " + this.getClass().getSimpleName() + " to work properly.");
 	}
 
 	/**
@@ -51,7 +49,7 @@ public class StandardDataWsClientImpl extends BaseWsClientImpl implements Standa
 	 * Get a list of treatment facilities from the partner.
 	 * </p>
 	 * <p>
-	 * The RemoteServiceCall implementation is selected by the current spring profile. REMOTE_CLIENT_IMPLS
+	 * The RemoteServiceCall implementation is selected by the current spring profile.
 	 * <ul>
 	 * <li>PROFILE_REMOTE_CLIENT_IMPLS instantiates RemoteServiceCallImpl</li>
 	 * <li>PROFILE_REMOTE_CLIENT_SIMULATORS instantiates RemoteServiceCallMock</li>

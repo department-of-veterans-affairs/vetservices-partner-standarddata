@@ -15,7 +15,7 @@ import gov.va.ascent.framework.ws.client.remote.RemoteServiceCall;
 @Component(StandardDataRemoteServiceCallImpl.BEAN_NAME)
 public class StandardDataRemoteServiceCallImpl implements RemoteServiceCall {
 
-	/** The spring bean name for implementations. MUST BE UNIQUE ACROSS ALL PARTNER JARS */
+	/** The spring bean name for implementation. MUST BE UNIQUE ACROSS ALL PARTNER JARS */
 	public static final String BEAN_NAME = "standardDataRemoteServiceCall";
 
 	@Override

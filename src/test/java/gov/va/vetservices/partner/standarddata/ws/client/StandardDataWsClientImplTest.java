@@ -43,9 +43,8 @@ import gov.va.vetservices.partner.standarddata.ws.client.transfer.GetContentionC
 @TestExecutionListeners(inheritListeners = false, listeners = { DependencyInjectionTestExecutionListener.class,
 		DirtiesContextTestExecutionListener.class, TransactionalTestExecutionListener.class })
 @ActiveProfiles({ AscentCommonSpringProfiles.PROFILE_REMOTE_CLIENT_SIMULATORS })
-@ContextConfiguration(inheritLocations = false, classes = { PartnerMockFrameworkTestConfig.class,
-		StandardDataWsClientConfig.class })
-public class StandardDataWsClientImpl_UnitTest extends AbstractStandardDataTest{
+@ContextConfiguration(inheritLocations = false, classes = { PartnerMockFrameworkTestConfig.class, StandardDataWsClientConfig.class })
+public class StandardDataWsClientImplTest extends AbstractStandardDataTest{
 
 	@Autowired
 	@Qualifier(StandardDataWsClientImpl.BEAN_NAME)
