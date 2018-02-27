@@ -1,8 +1,5 @@
 package gov.va.vetservices.partner.standarddata.ws.client;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.annotation.PostConstruct;
 
 import org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator;
@@ -166,8 +163,7 @@ public class StandardDataWsClientConfig extends BaseWsClientConfig {
 	@Bean
 	BeanNameAutoProxyCreator standardDataWsClientBeanProxy() {
 		// CHECKSTYLE:ON
-		return getBeanNameAutoProxyCreator(
-				new String[] { StandardDataWsClientImpl.BEAN_NAME },
+		return getBeanNameAutoProxyCreator(new String[] { StandardDataWsClientImpl.BEAN_NAME },
 				new String[] { "standardDataWsClientExceptionInterceptor", "standardDataWsClientPerformanceLogMethodInterceptor" });
 	}
 
