@@ -9,6 +9,11 @@ import gov.va.vetservices.partner.standarddata.ws.client.transfer.GetContentionC
 
 public class AbstractStandardDataTest {
 
+	/**
+	 * Make a contention type code list request object.
+	 *
+	 * @return GetContentionClassificationTypeCodeList
+	 */
 	protected GetContentionClassificationTypeCodeList makeRequest() {
 		final GetContentionClassificationTypeCodeList request = new GetContentionClassificationTypeCodeList();
 		return request;

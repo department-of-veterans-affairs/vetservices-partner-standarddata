@@ -11,7 +11,7 @@ import gov.va.vetservices.partner.standarddata.ws.client.AbstractStandardDataTes
 import gov.va.vetservices.partner.standarddata.ws.client.transfer.GetContentionClassificationTypeCodeList;
 
 
-public class RemoteServiceCallMock_UnitTest extends AbstractStandardDataTest {
+public class RemoteServiceCallMockTest extends AbstractStandardDataTest {
 
 	private static final String ALL_DISABILITIES = "allDisabilities";
 
@@ -22,31 +22,27 @@ public class RemoteServiceCallMock_UnitTest extends AbstractStandardDataTest {
 		String keyForMockResponse = mock.getKeyForMockResponse(request);
 
 		assertNotNull(keyForMockResponse);
-    	keyForMockResponse = mock.getKeyForMockResponse(request);
-
-		assertNotNull(keyForMockResponse);
 		assertTrue(keyForMockResponse.equals(ALL_DISABILITIES));
 	}
 	
 	@Test
-	public void testGetKeyForMockNullResponse() {
+	public void testGetKeyForMockResponse_NullRequest() {
 		StandardDataRemoteServiceCallMock mock = new StandardDataRemoteServiceCallMock();
 		GetContentionClassificationTypeCodeList request = null;
+		
 		String keyForMockResponse = null;
+		
 		try {
 			keyForMockResponse = mock.getKeyForMockResponse(request);
 		} catch (Throwable e) {
 			e.printStackTrace();
 			assertTrue("Invalid excepetion was thrown.", IllegalArgumentException.class.equals(e.getClass()));
+			assertTrue("Exception message contains wrong string.",
+					e.getMessage().equals(StandardDataRemoteServiceCallMock.ERROR_NULL_REQUEST));
 		}
 
 		assertNull("Null request should have thrown exception.", keyForMockResponse);
 
-	}
-
-	@Test
-	public void testCallRemoteService() {
-		assertTrue(true);
 	}
 
 }

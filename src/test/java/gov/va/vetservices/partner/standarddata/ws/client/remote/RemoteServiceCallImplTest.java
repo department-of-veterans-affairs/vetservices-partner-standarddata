@@ -45,15 +45,14 @@ import gov.va.vetservices.partner.standarddata.ws.client.transfer.GetContentionC
 @TestExecutionListeners(inheritListeners = false, listeners = { DependencyInjectionTestExecutionListener.class,
 		DirtiesContextTestExecutionListener.class, TransactionalTestExecutionListener.class })
 @ActiveProfiles({ AscentCommonSpringProfiles.PROFILE_REMOTE_CLIENT_SIMULATORS })
-@ContextConfiguration(inheritLocations = false, classes = { PartnerMockFrameworkTestConfig.class,
-		StandardDataWsClientConfig.class })
-public class RemoteServiceCallImpl_UnitTest extends AbstractStandardDataTest {
+@ContextConfiguration(inheritLocations = false, classes = { PartnerMockFrameworkTestConfig.class, StandardDataWsClientConfig.class })
+public class RemoteServiceCallImplTest extends AbstractStandardDataTest {
+
+	private final static String ALL_DISABILITIES = "allDisabilities";
 
 	/** Specifically the IMPL class for the RemoteServiceCall interface */
 	private StandardDataRemoteServiceCallImpl callPartnerService = new StandardDataRemoteServiceCallImpl();
 	
-	private static final String ALL_DISABILITIES = "allDisabilities";
-
 	private MockWebServiceServer mockWebServicesServer;
 
 	@Autowired
@@ -64,15 +63,16 @@ public class RemoteServiceCallImpl_UnitTest extends AbstractStandardDataTest {
 	public void setUp() {
 		assertNotNull("FAIL axiomWebServiceTemplate cannot be null.", axiomWebServiceTemplate);
 		assertNotNull("FAIL callPartnerService cannot be null.", callPartnerService);
+		
 		mockWebServicesServer = MockWebServiceServer.createServer(axiomWebServiceTemplate);
-		assertNotNull("FAIL mockWebServicesServer cannot be null.");
+		assertNotNull("FAIL mockWebServicesServer cannot be null.", mockWebServicesServer);
 	}
 
 	@Test
 	public void testCallRemoteService() {
 		// call the impl declared by the current @ActiveProfiles
 
-		GetContentionClassificationTypeCodeList request = makeRequest();
+		GetContentionClassificationTypeCodeList request = super.makeRequest();
 		final Source requestPayload = marshalMockRequest((Jaxb2Marshaller) axiomWebServiceTemplate.getMarshaller(), request,
 				request.getClass());
 		final Source responsePayload = readMockResponseByKey();
@@ -113,14 +113,14 @@ public class RemoteServiceCallImpl_UnitTest extends AbstractStandardDataTest {
 	 * @return
 	 */
 	private ResourceSource readMockResponseByKey() {
-		String keyPath = this.ALL_DISABILITIES;
+		String keyPath = ALL_DISABILITIES;
 		Defense.hasText(keyPath);
 
 		// read the resource
 		ResourceSource resource = null;
 		try {
-			resource = new ResourceSource(new ClassPathResource(MessageFormat.format(
-					AbstractRemoteServiceCallMock.MOCK_FILENAME_TEMPLATE, keyPath)));
+			resource = new ResourceSource(
+					new ClassPathResource(MessageFormat.format(AbstractRemoteServiceCallMock.MOCK_FILENAME_TEMPLATE, keyPath)));
 		} catch (final IOException e) {
 			throw new StandardDataWsClientException(("Could not read mock XML file '"
 					+ MessageFormat.format(AbstractRemoteServiceCallMock.MOCK_FILENAME_TEMPLATE, keyPath)
