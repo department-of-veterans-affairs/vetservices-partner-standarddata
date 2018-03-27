@@ -150,7 +150,7 @@ public class StandardDataWsClientConfig extends BaseWsClientConfig {
 	@Bean
 	InterceptingExceptionTranslator standardDataWsClientExceptionInterceptor() throws ClassNotFoundException {
 		// CHECKSTYLE:ON
-		return getInterceptingExceptionTranslator(DEFAULT_EXCEPTION_CLASS, PACKAGE_WSS_FOUNDATION_EXCEPTION);
+		return getInterceptingExceptionTranslator(DEFAULT_EXCEPTION_CLASS, PACKAGE_ASCENT_FRAMEWORK_EXCEPTION);
 	}
 
 	/**
