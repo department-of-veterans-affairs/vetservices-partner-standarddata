@@ -23,7 +23,7 @@ public class StandardDataRemoteServiceCallMock extends AbstractRemoteServiceCall
 	private static final String ALL_DISABILITIES = "allDisabilities";
 
 	/** error for null request */
-	static final String ERROR_NULL_REQUEST = "getKeyForMockResponse request parameter cannont be null.";
+	static final String ERROR_NULL_REQUEST = "getKeyForMockResponse request parameter cannot be null.";
 
 	/*
 	 * (non-Javadoc)
