@@ -31,7 +31,7 @@ import org.springframework.xml.transform.StringResult;
 import org.springframework.xml.transform.StringSource;
 
 import gov.va.ascent.framework.config.AscentCommonSpringProfiles;
-import gov.va.ascent.framework.transfer.AbstractTransferObject;
+import gov.va.ascent.framework.transfer.PartnerTransferObjectMarker;
 import gov.va.ascent.framework.util.Defense;
 import gov.va.ascent.framework.ws.client.remote.AbstractRemoteServiceCallMock;
 import gov.va.vetservices.partner.standarddata.ws.client.AbstractStandardDataTest;
@@ -39,7 +39,6 @@ import gov.va.vetservices.partner.standarddata.ws.client.PartnerMockFrameworkTes
 import gov.va.vetservices.partner.standarddata.ws.client.StandardDataWsClientConfig;
 import gov.va.vetservices.partner.standarddata.ws.client.StandardDataWsClientException;
 import gov.va.vetservices.partner.standarddata.ws.client.transfer.GetContentionClassificationTypeCodeList;
-
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @TestExecutionListeners(inheritListeners = false, listeners = { DependencyInjectionTestExecutionListener.class,
@@ -51,8 +50,8 @@ public class RemoteServiceCallImplTest extends AbstractStandardDataTest {
 	private final static String ALL_DISABILITIES = "allDisabilities";
 
 	/** Specifically the IMPL class for the RemoteServiceCall interface */
-	private StandardDataRemoteServiceCallImpl callPartnerService = new StandardDataRemoteServiceCallImpl();
-	
+	private final StandardDataRemoteServiceCallImpl callPartnerService = new StandardDataRemoteServiceCallImpl();
+
 	private MockWebServiceServer mockWebServicesServer;
 
 	@Autowired
@@ -63,7 +62,7 @@ public class RemoteServiceCallImplTest extends AbstractStandardDataTest {
 	public void setUp() {
 		assertNotNull("FAIL axiomWebServiceTemplate cannot be null.", axiomWebServiceTemplate);
 		assertNotNull("FAIL callPartnerService cannot be null.", callPartnerService);
-		
+
 		mockWebServicesServer = MockWebServiceServer.createServer(axiomWebServiceTemplate);
 		assertNotNull("FAIL mockWebServicesServer cannot be null.", mockWebServicesServer);
 	}
@@ -72,7 +71,7 @@ public class RemoteServiceCallImplTest extends AbstractStandardDataTest {
 	public void testCallRemoteService() {
 		// call the impl declared by the current @ActiveProfiles
 
-		GetContentionClassificationTypeCodeList request = super.makeRequest();
+		final GetContentionClassificationTypeCodeList request = super.makeRequest();
 		final Source requestPayload = marshalMockRequest((Jaxb2Marshaller) axiomWebServiceTemplate.getMarshaller(), request,
 				request.getClass());
 		final Source responsePayload = readMockResponseByKey();
@@ -81,7 +80,7 @@ public class RemoteServiceCallImplTest extends AbstractStandardDataTest {
 
 		/* attempt to call partner will ALWAYS fail - test for specific exception classes */
 		try {
-			callPartnerService.callRemoteService(axiomWebServiceTemplate, 
+			callPartnerService.callRemoteService(axiomWebServiceTemplate,
 					request, GetContentionClassificationTypeCodeList.class);
 
 			mockWebServicesServer.verify();
@@ -95,12 +94,13 @@ public class RemoteServiceCallImplTest extends AbstractStandardDataTest {
 
 	/**
 	 * Exact copy of the
+	 * 
 	 * @param marshaller
 	 * @param request
 	 * @param requestClass
 	 * @return
 	 */
-	private StringSource marshalMockRequest(final Jaxb2Marshaller marshaller, final AbstractTransferObject request,
+	private StringSource marshalMockRequest(final Jaxb2Marshaller marshaller, final PartnerTransferObjectMarker request,
 			final Class<?> requestClass) {
 		final StringResult result = new StringResult();
 		marshaller.marshal(requestClass.cast(request), result);
@@ -109,11 +109,12 @@ public class RemoteServiceCallImplTest extends AbstractStandardDataTest {
 
 	/**
 	 * Request payload creation specific to this endpoint operation test.
+	 * 
 	 * @param keyPath
 	 * @return
 	 */
 	private ResourceSource readMockResponseByKey() {
-		String keyPath = ALL_DISABILITIES;
+		final String keyPath = ALL_DISABILITIES;
 		Defense.hasText(keyPath);
 
 		// read the resource
@@ -122,9 +123,9 @@ public class RemoteServiceCallImplTest extends AbstractStandardDataTest {
 			resource = new ResourceSource(
 					new ClassPathResource(MessageFormat.format(AbstractRemoteServiceCallMock.MOCK_FILENAME_TEMPLATE, keyPath)));
 		} catch (final IOException e) {
-			throw new StandardDataWsClientException(("Could not read mock XML file '"
+			throw new StandardDataWsClientException("Could not read mock XML file '"
 					+ MessageFormat.format(AbstractRemoteServiceCallMock.MOCK_FILENAME_TEMPLATE, keyPath)
-					+ "' using key '" + keyPath + "'. Please make sure this response file exists in the main/resources directory."), e);
+					+ "' using key '" + keyPath + "'. Please make sure this response file exists in the main/resources directory.", e);
 		}
 		return resource;
 	}
