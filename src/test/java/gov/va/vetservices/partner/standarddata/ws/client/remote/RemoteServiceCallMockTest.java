@@ -35,7 +35,6 @@ public class RemoteServiceCallMockTest extends AbstractStandardDataTest {
 		try {
 			keyForMockResponse = mock.getKeyForMockResponse(request);
 		} catch (Throwable e) {
-			e.printStackTrace();
 			assertTrue("Invalid excepetion was thrown.", IllegalArgumentException.class.equals(e.getClass()));
 			assertTrue("Exception message contains wrong string.",
 					e.getMessage().equals(StandardDataRemoteServiceCallMock.ERROR_NULL_REQUEST));
