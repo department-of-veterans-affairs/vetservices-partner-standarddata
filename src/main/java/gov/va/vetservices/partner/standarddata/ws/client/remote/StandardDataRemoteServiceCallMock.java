@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.ws.client.core.WebServiceTemplate;
 
 import gov.va.ascent.framework.config.AscentCommonSpringProfiles;
-import gov.va.ascent.framework.transfer.AbstractTransferObject;
+import gov.va.ascent.framework.transfer.PartnerTransferObjectMarker;
 import gov.va.ascent.framework.util.Defense;
 import gov.va.ascent.framework.ws.client.remote.AbstractRemoteServiceCallMock;
 import gov.va.ascent.framework.ws.client.remote.RemoteServiceCall;
@@ -29,11 +29,12 @@ public class StandardDataRemoteServiceCallMock extends AbstractRemoteServiceCall
 	 * (non-Javadoc)
 	 *
 	 * @see gov.va.ascent.framework.ws.client.remote.RemoteServiceCall#callRemoteService(org.springframework.ws.client.core.
-	 * WebServiceTemplate, gov.va.ascent.framework.transfer.AbstractTransferObject, java.lang.Class)
+	 * WebServiceTemplate, gov.va.ascent.framework.transfer.PartnerTransferObjectMarker, java.lang.Class)
 	 */
 	@Override
-	public AbstractTransferObject callRemoteService(final WebServiceTemplate webserviceTemplate, final AbstractTransferObject request,
-			final Class<? extends AbstractTransferObject> requestClass) {
+	public PartnerTransferObjectMarker callRemoteService(final WebServiceTemplate webserviceTemplate,
+			final PartnerTransferObjectMarker request,
+			final Class<? extends PartnerTransferObjectMarker> requestClass) {
 
 		return super.callMockService(webserviceTemplate, request, requestClass);
 	}
@@ -43,10 +44,10 @@ public class StandardDataRemoteServiceCallMock extends AbstractRemoteServiceCall
 	 *
 	 * @see
 	 * gov.va.ascent.framework.ws.client.remote.AbstractRemoteServiceCallMock#getKeyForMockResponse(gov.va.ascent.framework.transfer.
-	 * AbstractTransferObject)
+	 * PartnerTransferObjectMarker)
 	 */
 	@Override
-	protected String getKeyForMockResponse(final AbstractTransferObject request) {
+	protected String getKeyForMockResponse(final PartnerTransferObjectMarker request) {
 		Defense.notNull(request, ERROR_NULL_REQUEST);
 
 		return ALL_DISABILITIES;
