@@ -1,5 +1,8 @@
 package gov.va.vetservices.partner.standarddata.ws.client.remote;
 
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.ws.client.core.WebServiceTemplate;
@@ -18,6 +21,7 @@ import gov.va.ascent.framework.ws.client.remote.RemoteServiceCall;
 @Profile(AscentCommonSpringProfiles.PROFILE_REMOTE_CLIENT_SIMULATORS)
 @Component(StandardDataRemoteServiceCallImpl.BEAN_NAME)
 public class StandardDataRemoteServiceCallMock extends AbstractRemoteServiceCallMock {
+	private static final Logger LOGGER = LoggerFactory.getLogger(StandardDataRemoteServiceCallMock.class);
 
 	/** default mock data if stateCode is null or empty */
 	private static final String ALL_DISABILITIES = "allDisabilities";
@@ -36,6 +40,8 @@ public class StandardDataRemoteServiceCallMock extends AbstractRemoteServiceCall
 			final PartnerTransferObjectMarker request,
 			final Class<? extends PartnerTransferObjectMarker> requestClass) {
 
+		LOGGER.info("Calling MOCK service with request " + ReflectionToStringBuilder.toString(request));
+		// super handles exceptions
 		return super.callMockService(webserviceTemplate, request, requestClass);
 	}
 
