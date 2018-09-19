@@ -9,6 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.ws.client.core.WebServiceTemplate;
@@ -38,6 +39,23 @@ public class StandardDataWsClientConfig extends BaseWsClientConfig {
 			"gov.va.vetservices.partner.standarddata.ws.client.StandardDataWsClientException";
 
 	// ####### for test, member values are from src/test/resource/application.yml ######
+
+	/** Location of the truststore containing the standarddata cert */
+	@Value("${vetservices-partner-standarddata.ws.client.ssl.keystore:src/test/resources/ssl/dev/vaebnweb1Keystore.jks}")
+	private String keystore;
+
+	/** Password for the standarddata cert */
+	@Value("${vetservices-partner-standarddata.ws.client.ssl.keystorePass:password}")
+	private String keystorePass;
+
+	/** Location of the truststore containing the standarddata cert */
+	@Value("${vetservices-partner-standarddata.ws.client.ssl.truststore:src/test/resources/ssl/dev/vaebnTruststore.jks}")
+	private String truststore;
+
+	/** Password for the standarddata cert */
+	@Value("${vetservices-partner-standarddata.ws.client.ssl.truststorePass:password}")
+	private String truststorePass;
+
 	/** Decides if jaxb validation logs errors. */
 	@Value("${vetservices-partner-standarddata.ws.client.logValidation:true}")
 	private boolean logValidation;
@@ -102,8 +120,9 @@ public class StandardDataWsClientConfig extends BaseWsClientConfig {
 
 		Defense.hasText(endpoint, "standardDataWsClientAxiomTemplate endpoint cannot be empty.");
 
-		return createDefaultWebServiceTemplate(endpoint, readTimeout, connectionTimeout, standardDataMarshaller(),
-				standardDataMarshaller(), new ClientInterceptor[] { standardDataSecurityInterceptor() });
+		return createSslWebServiceTemplate(endpoint, readTimeout, connectionTimeout, standardDataMarshaller(),
+				standardDataMarshaller(), new ClientInterceptor[] { standardDataSecurityInterceptor() },
+				new FileSystemResource(keystore), keystorePass, new FileSystemResource(truststore), truststorePass);
 	}
 
 	/**
