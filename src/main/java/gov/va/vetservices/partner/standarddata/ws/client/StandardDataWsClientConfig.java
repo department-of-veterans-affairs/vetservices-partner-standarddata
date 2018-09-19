@@ -9,6 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.ws.client.core.WebServiceTemplate;
@@ -119,8 +120,9 @@ public class StandardDataWsClientConfig extends BaseWsClientConfig {
 
 		Defense.hasText(endpoint, "standardDataWsClientAxiomTemplate endpoint cannot be empty.");
 
-		return createDefaultWebServiceTemplate(endpoint, readTimeout, connectionTimeout, standardDataMarshaller(),
-				standardDataMarshaller(), new ClientInterceptor[] { standardDataSecurityInterceptor() });
+		return createSslWebServiceTemplate(endpoint, readTimeout, connectionTimeout, standardDataMarshaller(),
+				standardDataMarshaller(), new ClientInterceptor[] { standardDataSecurityInterceptor() },
+				new FileSystemResource(keystore), keystorePass, new FileSystemResource(truststore), truststorePass);
 	}
 
 	/**
