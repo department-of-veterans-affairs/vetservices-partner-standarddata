@@ -30,8 +30,9 @@ public class StandardDataRemoteServiceCallImpl implements RemoteServiceCall {
 		PartnerTransferObjectMarker response = null;
 
 		try {
-			LOGGER.info("Calling partner SOAP service with request " + ReflectionToStringBuilder.toString(request));
+			LOGGER.info("Calling partner SOAP service with request " + ReflectionToStringBuilder.toString(requestClass.cast(request)));
 			response = (PartnerTransferObjectMarker) webserviceTemplate.marshalSendAndReceive(requestClass.cast(request));
+			LOGGER.info("Returned from partner SOAP service with response " + ReflectionToStringBuilder.toString(response));
 		} catch (Exception e) {
 			LOGGER.error("IMPL partner service call failed with requestClass "
 					+ requestClass.getName() + " and request object " + ReflectionToStringBuilder.toString(request), e);
