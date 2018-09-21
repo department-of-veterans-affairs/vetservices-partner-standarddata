@@ -73,7 +73,7 @@ public class StandardDataWsClientConfig extends BaseWsClientConfig {
 	private String vaApplicationName;
 
 	/** VA station ID value */
-	@Value("${vetservices-partner-standarddata.ws.client.stationID}")
+	@Value("${bgs.stationId}")
 	private String stationId;
 
 	/**

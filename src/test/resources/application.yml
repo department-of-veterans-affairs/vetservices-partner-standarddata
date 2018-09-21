@@ -12,7 +12,7 @@ vetservices-partner-standarddata.ws.client.endpoint: http://localhost:9723/mockS
 vetservices-partner-standarddata.ws.client.username: unitTestUsername
 vetservices-partner-standarddata.ws.client.password: unitTestPassword
 vetservices-partner-standarddata.ws.client.vaApplicationName: unitTestAppName
-vetservices-partner-standarddata.ws.client.stationID: unitTestStationId
+bgs.stationId: unitTestStationId
 
 wss-persist.hibernateJpaConfig.packagesToScan: gov.va.evss.database.persist.domain
 
