@@ -2,6 +2,9 @@ package gov.va.vetservices.partner.standarddata.ws.client;
 
 import javax.annotation.PostConstruct;
 
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -20,6 +23,7 @@ import gov.va.vetservices.partner.standarddata.ws.client.transfer.GetContentionC
  */
 @Component(StandardDataWsClientImpl.BEAN_NAME)
 public class StandardDataWsClientImpl extends BaseWsClientImpl implements StandardDataWsClient {
+	private static final Logger LOGGER = LoggerFactory.getLogger(StandardDataWsClientImpl.class);
 
 	/** A constant representing the Spring Bean name. */
 	public static final String BEAN_NAME = "standardDataWsClient";
@@ -60,6 +64,9 @@ public class StandardDataWsClientImpl extends BaseWsClientImpl implements Standa
 	public final GetContentionClassificationTypeCodeListResponse
 			getContentionClassificationTypeCodeList(final GetContentionClassificationTypeCodeList request) {
 		Defense.notNull(request);
+
+		LOGGER.debug("Entered getContentionClassificationTypeCodeList(); standardDataWsTemplate is: "
+				+ ReflectionToStringBuilder.toString(standardDataWsTemplate));
 
 		final GetContentionClassificationTypeCodeListResponse response =
 				(GetContentionClassificationTypeCodeListResponse) remoteServiceCall.callRemoteService(standardDataWsTemplate, request,
