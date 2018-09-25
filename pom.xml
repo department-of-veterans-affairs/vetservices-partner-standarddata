@@ -10,12 +10,12 @@
   	<parent>
 		<groupId>gov.va.ascent</groupId>
 		<artifactId>ascent-libraries-parent</artifactId>
-		<version>0.0.7-SNAPSHOT</version>
+		<version>0.0.7</version>
 	</parent>
 
   <groupId>gov.va.vetservices.partner</groupId>
   <artifactId>vetservices-partner-standarddata</artifactId>
-  <version>0.0.5-SNAPSHOT</version>
+  <version>0.0.5</version>
   <name>${project.artifactId}</name>
   <description>VetServices Standard Data partner client</description>
 
