@@ -190,7 +190,7 @@ public class StandardDataWsClientConfig extends BaseWsClientConfig {
 	// Ignoring DesignForExtension check, we cannot make this spring bean method private or final
 	// CHECKSTYLE:OFF
 	@Bean
-	RemoteServiceCallInterceptor standardDataWsClientRemoteServiceCallInterceptor() throws ClassNotFoundException {
+	RemoteServiceCallInterceptor standardDataWsClientRemoteServiceCallInterceptor() {
 		// CHECKSTYLE:ON
 		return getRemoteServiceCallInterceptor();
 	}
