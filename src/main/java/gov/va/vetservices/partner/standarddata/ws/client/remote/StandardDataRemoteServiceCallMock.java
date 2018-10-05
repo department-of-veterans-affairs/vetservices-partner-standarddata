@@ -1,13 +1,13 @@
 package gov.va.vetservices.partner.standarddata.ws.client.remote;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.ws.client.core.WebServiceTemplate;
 
 import gov.va.ascent.framework.config.AscentCommonSpringProfiles;
+import gov.va.ascent.framework.log.AscentLogger;
+import gov.va.ascent.framework.log.AscentLoggerFactory;
 import gov.va.ascent.framework.transfer.PartnerTransferObjectMarker;
 import gov.va.ascent.framework.util.Defense;
 import gov.va.ascent.framework.ws.client.remote.AbstractRemoteServiceCallMock;
@@ -21,7 +21,7 @@ import gov.va.ascent.framework.ws.client.remote.RemoteServiceCall;
 @Profile(AscentCommonSpringProfiles.PROFILE_REMOTE_CLIENT_SIMULATORS)
 @Component(StandardDataRemoteServiceCallImpl.BEAN_NAME)
 public class StandardDataRemoteServiceCallMock extends AbstractRemoteServiceCallMock {
-	private static final Logger LOGGER = LoggerFactory.getLogger(StandardDataRemoteServiceCallMock.class);
+	private static final AscentLogger LOGGER = AscentLoggerFactory.getLogger(StandardDataRemoteServiceCallMock.class);
 
 	/** default mock data if stateCode is null or empty */
 	private static final String ALL_DISABILITIES = "allDisabilities";
