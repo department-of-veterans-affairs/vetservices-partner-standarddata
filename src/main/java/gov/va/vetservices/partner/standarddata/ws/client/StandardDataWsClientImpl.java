@@ -3,13 +3,13 @@ package gov.va.vetservices.partner.standarddata.ws.client;
 import javax.annotation.PostConstruct;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.ws.client.core.WebServiceTemplate;
 
+import gov.va.ascent.framework.log.AscentLogger;
+import gov.va.ascent.framework.log.AscentLoggerFactory;
 import gov.va.ascent.framework.util.Defense;
 import gov.va.ascent.framework.ws.client.BaseWsClientImpl;
 import gov.va.ascent.framework.ws.client.remote.RemoteServiceCall;
@@ -23,7 +23,7 @@ import gov.va.vetservices.partner.standarddata.ws.client.transfer.GetContentionC
  */
 @Component(StandardDataWsClientImpl.BEAN_NAME)
 public class StandardDataWsClientImpl extends BaseWsClientImpl implements StandardDataWsClient {
-	private static final Logger LOGGER = LoggerFactory.getLogger(StandardDataWsClientImpl.class);
+	private static final AscentLogger LOGGER = AscentLoggerFactory.getLogger(StandardDataWsClientImpl.class);
 
 	/** A constant representing the Spring Bean name. */
 	public static final String BEAN_NAME = "standardDataWsClient";
