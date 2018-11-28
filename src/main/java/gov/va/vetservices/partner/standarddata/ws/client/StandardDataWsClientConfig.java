@@ -17,6 +17,7 @@ import org.springframework.ws.client.support.interceptor.ClientInterceptor;
 import org.springframework.ws.soap.security.wss4j2.Wss4jSecurityInterceptor;
 
 import gov.va.ascent.framework.exception.InterceptingExceptionTranslator;
+import gov.va.ascent.framework.log.LogHttpCallInterceptor;
 import gov.va.ascent.framework.log.PerformanceLogMethodInterceptor;
 import gov.va.ascent.framework.util.Defense;
 import gov.va.ascent.framework.ws.client.BaseWsClientConfig;
@@ -27,7 +28,7 @@ import gov.va.ascent.framework.ws.client.remote.RemoteServiceCallInterceptor;
  */
 @Configuration
 @ComponentScan(basePackages = { "gov.va.vetservices.partner.standarddata.ws.client", "gov.va.ascent.framework.ws.client",
-		 "gov.va.ascent.framework.audit" }, excludeFilters = @Filter(Configuration.class))
+		"gov.va.ascent.framework.audit" }, excludeFilters = @Filter(Configuration.class))
 public class StandardDataWsClientConfig extends BaseWsClientConfig {
 
 	/** The package name for data transfer objects. */
@@ -126,8 +127,12 @@ public class StandardDataWsClientConfig extends BaseWsClientConfig {
 
 		Defense.hasText(endpoint, "standardDataWsClientAxiomTemplate endpoint cannot be empty.");
 
+		LogHttpCallInterceptor logHttpCallInterceptor = new LogHttpCallInterceptor();
+
 		return createSslWebServiceTemplate(endpoint, readTimeout, connectionTimeout, standardDataMarshaller(),
-				standardDataMarshaller(), new ClientInterceptor[] { standardDataSecurityInterceptor() },
+				// logHttpCallInterceptor has to be the last element in the array, since it needs to log the message once all
+				// interceptors are done doing their job, so as to log the complete message just before it is being sent
+				standardDataMarshaller(), new ClientInterceptor[] { standardDataSecurityInterceptor(), logHttpCallInterceptor },
 				new FileSystemResource(keystore), keystorePass, new FileSystemResource(truststore), truststorePass);
 	}
 
@@ -164,8 +169,7 @@ public class StandardDataWsClientConfig extends BaseWsClientConfig {
 	/**
 	 * InterceptingExceptionTranslator for the Web Service Client
 	 *
-	 * Handles runtime exceptions raised by the web service client through runtime
-	 * operation and communication with the remote service.
+	 * Handles runtime exceptions raised by the web service client through runtime operation and communication with the remote service.
 	 *
 	 * @return the intercepting exception translator
 	 * @throws ClassNotFoundException the class not found exception
@@ -177,12 +181,11 @@ public class StandardDataWsClientConfig extends BaseWsClientConfig {
 		// CHECKSTYLE:ON
 		return getInterceptingExceptionTranslator(DEFAULT_EXCEPTION_CLASS, PACKAGE_ASCENT_FRAMEWORK_EXCEPTION);
 	}
-	
+
 	/**
 	 * RemoteServiceCallInterceptor for the Web Service Client
 	 *
-	 * Handles runtime exceptions raised by the web service client through runtime
-	 * operation and communication with the remote service.
+	 * Handles runtime exceptions raised by the web service client through runtime operation and communication with the remote service.
 	 *
 	 * @return the RemoteServiceCallInterceptor
 	 * @throws ClassNotFoundException the class not found exception
@@ -194,7 +197,6 @@ public class StandardDataWsClientConfig extends BaseWsClientConfig {
 		// CHECKSTYLE:ON
 		return getRemoteServiceCallInterceptor();
 	}
-	
 
 	/**
 	 * A standard bean proxy to apply interceptors to the web service client.
@@ -208,7 +210,7 @@ public class StandardDataWsClientConfig extends BaseWsClientConfig {
 		// CHECKSTYLE:ON
 		return getBeanNameAutoProxyCreator(new String[] { StandardDataWsClientImpl.BEAN_NAME },
 				new String[] { "standardDataWsClientExceptionInterceptor", "standardDataWsClientPerformanceLogMethodInterceptor",
-						"standardDataWsClientRemoteServiceCallInterceptor"});
+						"standardDataWsClientRemoteServiceCallInterceptor" });
 	}
 
 }
