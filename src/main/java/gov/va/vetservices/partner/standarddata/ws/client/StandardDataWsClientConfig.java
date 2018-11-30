@@ -127,12 +127,16 @@ public class StandardDataWsClientConfig extends BaseWsClientConfig {
 
 		Defense.hasText(endpoint, "standardDataWsClientAxiomTemplate endpoint cannot be empty.");
 
-		LogHttpCallInterceptor logHttpCallInterceptor = new LogHttpCallInterceptor();
+		LogHttpCallInterceptor logHttpCallInterceptorBeforeEncryption = new LogHttpCallInterceptor("Raw message");
+		LogHttpCallInterceptor logHttpCallInterceptorAfterEncryption = new LogHttpCallInterceptor("Wire log message");
 
 		return createSslWebServiceTemplate(endpoint, readTimeout, connectionTimeout, standardDataMarshaller(),
-				// logHttpCallInterceptor has to be the last element in the array, since it needs to log the message once all
-				// interceptors are done doing their job, so as to log the complete message just before it is being sent
-				standardDataMarshaller(), new ClientInterceptor[] { standardDataSecurityInterceptor(), logHttpCallInterceptor },
+				// logHttpCallInterceptorAfterEncryption has to be the last element in the array, since it needs to log the
+				// message once all interceptors are done doing their job, so as to log the complete message just before it is
+				// being sent
+				standardDataMarshaller(),
+				new ClientInterceptor[] { logHttpCallInterceptorBeforeEncryption, standardDataSecurityInterceptor(),
+						logHttpCallInterceptorAfterEncryption },
 				new FileSystemResource(keystore), keystorePass, new FileSystemResource(truststore), truststorePass);
 	}
 
