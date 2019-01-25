@@ -3958,7 +3958,7 @@
          </return>
          <return>
             <clsfcnId>9011</clsfcnId>
-            <clsfcnTxt>Post Traumatic Stress Disorder (PTSD) Personal Trauma - Mental Disorders</clsfcnTxt>
+            <clsfcnTxt>Post Traumatic Stress Disorder (PTSD) Personal Trauma - Mental Disorders </clsfcnTxt>
          </return>
          <return>
             <clsfcnId>9012</clsfcnId>
@@ -4055,5 +4055,9 @@
          <return>
             <clsfcnId>249481</clsfcnId>
             <clsfcnTxt>Dental and Oral - Musculoskeletal</clsfcnTxt>
+         </return>
+         <return>
+            <clsfcnId>249482</clsfcnId>
+            <clsfcnTxt>Musculoskeletal - Bones</clsfcnTxt>
          </return>
       </ns2:getContentionClassificationTypeCodeListResponse>
